@@ -1,8 +1,8 @@
 package com.jiurong.hcxboot.service.user;
 
 
-import com.jiurong.hcxboot.model.UserDomain;
-import org.apache.catalina.User;
+
+import com.jiurong.hcxboot.model.User;
 
 import java.util.List;
 
@@ -13,5 +13,5 @@ public interface UserService {
 
     int addUser(User user);
 
-    List<UserDomain> findAllUser(int pageNum, int pageSize);
+    List<User> selectAll(int pageNum, int pageSize);
 }

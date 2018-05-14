@@ -1,8 +1,7 @@
 package com.jiurong.hcxboot.service.user.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.jiurong.hcxboot.dao.UserDao;
-import com.jiurong.hcxboot.model.UserDomain;
+import com.jiurong.hcxboot.dao.UserMapper;
+import com.jiurong.hcxboot.model.User;
 import com.jiurong.hcxboot.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,12 +15,12 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserDao userDao;//这里会报错，但是并不会影响
+    private UserMapper userMapper;//这里会报错，但是并不会影响
 
     @Override
-    public int addUser(UserDomain user) {
+    public int addUser(User user) {
 
-        return userDao.insert(user);
+        return userMapper.insert(user);
     }
 
     /*
@@ -31,10 +30,10 @@ public class UserServiceImpl implements UserService {
     * pageSize 每页显示的数据条数
     * */
     @Override
-    public List<UserDomain> findAllUser(int pageNum, int pageSize) {
+    public List<User> selectAll(int pageNum, int pageSize) {
         //将参数传给这个方法就可以实现物理分页了，非常简单。
 //        PageHelper.startPage(pageNum, pageSize);
-        List<UserDomain> userDomainList = userDao.selectUsers();
+        List<User> userDomainList = userMapper.selectAll();
         return userDomainList;
     }
 }
