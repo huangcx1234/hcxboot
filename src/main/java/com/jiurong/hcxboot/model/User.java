@@ -1,43 +1,53 @@
 package com.jiurong.hcxboot.model;
 
 public class User {
-    private Integer userId;
-
+    /**
+     * id
+     */
+    private Integer id;
+    /**
+     * 名字
+     */
     private String userName;
-
+    /**
+     * 密码
+     */
     private String password;
-
+    /**
+     * 手机号
+     */
     private String phone;
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getId() {
+        return this.id;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getUserName() {
-        return userName;
+        return this.userName;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
+        this.userName = userName;
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+        this.password = password;
     }
 
     public String getPhone() {
-        return phone;
+        return this.phone;
     }
 
     public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
+        this.phone = phone;
     }
 }
+

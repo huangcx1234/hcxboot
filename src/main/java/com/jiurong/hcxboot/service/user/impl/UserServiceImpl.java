@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public int addUser(User user) {
 
-        return userMapper.insert(user);
+        return userMapper.save(user);
     }
 
     /*
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     public List<User> selectAll(int pageNum, int pageSize) {
         //将参数传给这个方法就可以实现物理分页了，非常简单。
 //        PageHelper.startPage(pageNum, pageSize);
-        List<User> userDomainList = userMapper.selectAll();
+        List<User> userDomainList = userMapper.selectAll(new User());
         return userDomainList;
     }
 }
