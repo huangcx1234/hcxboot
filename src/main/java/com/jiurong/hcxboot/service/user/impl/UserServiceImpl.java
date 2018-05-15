@@ -1,12 +1,16 @@
 package com.jiurong.hcxboot.service.user.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.jiurong.hcxboot.dao.UserMapper;
 import com.jiurong.hcxboot.model.User;
 import com.jiurong.hcxboot.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/8/16.
@@ -18,9 +22,43 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;//这里会报错，但是并不会影响
 
     @Override
-    public int addUser(User user) {
-
+    public int save(User user) {
         return userMapper.save(user);
+    }
+
+    @Override
+    public int deleteById(Integer id) {
+        return userMapper.deleteById(id);
+    }
+
+    @Override
+    public int deleteBySelective(User user) {
+        return userMapper.deleteBySelective(user);
+    }
+
+    @Override
+    public int updateById(User user) {
+        return userMapper.updateById(user);
+    }
+
+    @Override
+    public int updateByIdSelective(User user) {
+        return userMapper.updateByIdSelective(user);
+    }
+
+    @Override
+    public User selectById(Integer id) {
+        return userMapper.selectById(id);
+    }
+
+    @Override
+    public List<User> selectBySelective(Map params) {
+        return userMapper.selectBySelective(params);
+    }
+
+    @Override
+    public int count(Map params) {
+        return userMapper.count(params);
     }
 
     /*
@@ -30,10 +68,10 @@ public class UserServiceImpl implements UserService {
     * pageSize 每页显示的数据条数
     * */
     @Override
-    public List<User> selectAll(int pageNum, int pageSize) {
+    public PageInfo<User> selectPageInfo(int pageNum, int pageSize, Map params) {
         //将参数传给这个方法就可以实现物理分页了，非常简单。
-//        PageHelper.startPage(pageNum, pageSize);
-        List<User> userDomainList = userMapper.selectAll(new User());
-        return userDomainList;
+        PageHelper.startPage(pageNum, pageSize);
+        List<User> userList = userMapper.selectBySelective(params);
+        return new PageInfo<>(userList);
     }
 }

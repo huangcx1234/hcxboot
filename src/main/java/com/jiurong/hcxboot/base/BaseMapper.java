@@ -1,12 +1,22 @@
 package com.jiurong.hcxboot.base;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BaseMapper<T> {
     int save(T t);
+
     int deleteById(Integer id);
-    void updateByIdSelective(T t);
-    void updateById(T t);
+
+    int deleteBySelective(T t);
+
+    int updateById(T t);
+
+    int updateByIdSelective(T t);
+
     T selectById(Integer id);
-    List<T> selectAll(T t);
+
+    List<T> selectBySelective(Map params);
+
+    int count(Map params);
 }

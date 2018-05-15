@@ -7,17 +7,17 @@
         <result property="password" column="password"/>
         <result property="phone" column="phone"/>
     </resultMap>
-    <sql id="propertyList">
-        #{id,jdbcType=INTEGER},
-        #{userName,jdbcType=VARCHAR},
-        #{password,jdbcType=VARCHAR},
-        #{phone,jdbcType=VARCHAR}
-    </sql>
-    <sql id="columnList">
+    <sql id="columnSql">
         id,
         user_name,
         password,
         phone
+    </sql>
+    <sql id="propertySql">
+        #{id,jdbcType=INTEGER},
+        #{userName,jdbcType=VARCHAR},
+        #{password,jdbcType=VARCHAR},
+        #{phone,jdbcType=VARCHAR}
     </sql>
     <sql id="columnEqProperty">
         id=#{id,jdbcType=INTEGER},
@@ -26,136 +26,82 @@
         phone=#{phone,jdbcType=VARCHAR}
     </sql>
     <sql id="columnEqPropertyIf">
-        <if test="id!=null" >id=#{id,jdbcType=INTEGER},</if>
-        <if test="userName!=null" >user_name=#{userName,jdbcType=VARCHAR},</if>
-        <if test="password!=null" >password=#{password,jdbcType=VARCHAR},</if>
-        <if test="phone!=null" >phone=#{phone,jdbcType=VARCHAR},</if>
+        <if test="id!=null">id=#{id,jdbcType=INTEGER},</if>
+        <if test="userName!=null">user_name=#{userName,jdbcType=VARCHAR},</if>
+        <if test="password!=null">password=#{password,jdbcType=VARCHAR},</if>
+        <if test="phone!=null">phone=#{phone,jdbcType=VARCHAR}</if>
     </sql>
-    <sql id="idSql">
+    <sql id="whereIdSql">
         <where>
-            <if test="id!=null" >id = #{id,jdbcType=INTEGER}</if>
-            <if test="id==null" >AND 1=0</if>
+            <if test="id!=null">id = #{id,jdbcType=INTEGER}</if>
+            <if test="id==null">AND 1=0</if>
         </where>
     </sql>
     <sql id="whereSql">
         <where>
             1=1
-            <if test="id!=null" >id=#{id,jdbcType=INTEGER},</if>
-            <if test="userName!=null" >user_name=#{userName,jdbcType=VARCHAR},</if>
-            <if test="password!=null" >password=#{password,jdbcType=VARCHAR},</if>
-            <if test="phone!=null" >phone=#{phone,jdbcType=VARCHAR},</if>
+            <if test="id!=null">AND id=#{id,jdbcType=INTEGER},</if>
+            <if test="userName!=null">AND user_name=#{userName,jdbcType=VARCHAR},</if>
+            <if test="password!=null">AND password=#{password,jdbcType=VARCHAR},</if>
+            <if test="phone!=null">AND phone=#{phone,jdbcType=VARCHAR}</if>
         </where>
+    </sql>
+    <sql id="orderSql">order by
+        <choose>
+            <when test="sort=='id'">id</when>
+            <when test="sort=='userName'">user_name</when>
+            <when test="sort=='password'">password</when>
+            <when test="sort=='phone'">phone</when>
+            <otherwise>id</otherwise>
+        </choose>
+        <choose>
+            <when test="order=='desc'">desc</when>
+            <otherwise>asc</otherwise>
+        </choose>
     </sql>
 
     <!--增删改查基础部分-->
     <insert id="save" parameterType="com.jiurong.hcxboot.model.User">
-        INSERT INTO user (<include refid="column_list"/>) VALUES (<include refid="property_list"/>)
+        INSERT INTO user (<include refid="columnSql"/>) VALUES (<include refid="propertySql"/>)
     </insert>
     <delete id="deleteById" parameterType="java.lang.Integer">
-        DELETE FROM  user <include refid="idSql"/>
+        DELETE FROM user
+        <include refid="whereIdSql"/>
     </delete>
-    <update id="updateByIdSelective" parameterType="com.jiurong.hcxboot.model.User">
-        UPDATE user <set><include refid="columnEqPropertyIf" /></set><include refid="idCnd" />
-    </update>
+    <delete id="deleteBySelective" parameterType="com.jiurong.hcxboot.model.User">
+        DELETE FROM user
+        <include refid="whereSql"/>
+    </delete>
     <update id="updateById" parameterType="com.jiurong.hcxboot.model.User">
-        UPDATE user <set><include refid="columnEqProperty" /></set><include refid="idCnd" />
+        UPDATE user
+        <set>
+            <include refid="columnEqProperty"/>
+        </set>
+        <include refid="whereIdSql"/>
+    </update>
+    <update id="updateByIdSelective" parameterType="com.jiurong.hcxboot.model.User">
+        UPDATE user
+        <set>
+            <include refid="columnEqPropertyIf"/>
+        </set>
+        <include refid="whereIdSql"/>
     </update>
     <select id="selectById" parameterType="java.lang.Integer" resultMap="resultMap">
-        SELECT <include refid="columnList" /> FROM user <include refid="idCnd" />
+        SELECT
+        <include refid="columnList"/>
+        FROM user
+        <include refid="whereIdSql"/>
     </select>
-    <select id="selectAll" parameterType="com.jiurong.hcxboot.model.User" resultMap="resultMap">
-        SELECT <include refid="fieldAsProperty" /> FROM user <include refid="whereSql" />
+    <select id="selectBySelective" parameterType="Map" resultMap="resultMap">
+        SELECT
+        <include refid="columnList"/>
+        FROM user
+        <include refid="whereSql"/>
+        <include refid="orderSql"/>
     </select>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <sql id="Base_Column_List">
-        user_id, user_name, password, phone
-    </sql>
-
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from user
-        where user_id = #{userId,jdbcType=INTEGER}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        DELETE FROM user
-        WHERE user_id = #{userId,jdbcType=INTEGER}
-    </delete>
-    <insert id="insert" parameterType="com.jiurong.hcxboot.model.User">
-        INSERT INTO user (user_id, user_name, password,
-                          phone)
-        VALUES (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
-                #{phone,jdbcType=VARCHAR})
-    </insert>
-    <insert id="insertSelective" parameterType="com.jiurong.hcxboot.model.User">
-        insert into user
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="userId != null">
-                user_id,
-            </if>
-            <if test="userName != null">
-                user_name,
-            </if>
-            <if test="password != null">
-                password,
-            </if>
-            <if test="phone != null">
-                phone,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="userId != null">
-                #{userId,jdbcType=INTEGER},
-            </if>
-            <if test="userName != null">
-                #{userName,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null">
-                #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="phone != null">
-                #{phone,jdbcType=VARCHAR},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.jiurong.hcxboot.model.User">
-        update user
-        <set>
-            <if test="userName != null">
-                user_name = #{userName,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null">
-                password = #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="phone != null">
-                phone = #{phone,jdbcType=VARCHAR},
-            </if>
-        </set>
-        where user_id = #{userId,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.jiurong.hcxboot.model.User">
-        UPDATE user
-        SET user_name = #{userName,jdbcType=VARCHAR},
-            password  = #{password,jdbcType=VARCHAR},
-            phone     = #{phone,jdbcType=VARCHAR}
-        WHERE user_id = #{userId,jdbcType=INTEGER}
-    </update>
-
-    <select id="selectAll" resultType="com.jiurong.hcxboot.model.User">
-        select
-        <include refid="Base_Column_List"/>
-        from user
+    <select id="count" parameterType="Map" resultType="Integer">
+        SELECT count(*)
+        FROM user
+        <include refid="whereSql"/>
     </select>
 </mapper>
