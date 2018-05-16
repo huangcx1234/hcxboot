@@ -2,11 +2,16 @@
 <#assign classNameLower = className?uncap_first>
 package ${basepackage}.model;
 
+/**
+ * @author ${author}
+ * @date ${cTime}
+ * @Description ${table.remarks}
+ */
 public class ${className} {
 <#list table.columns as column>
     /**
-    * ${column.remarks}
-    */
+     * ${column.remarks}
+     */
     private ${column.simpleJavaType} ${column.columnNameLower};
 </#list>
 <@generateJavaColumns/>

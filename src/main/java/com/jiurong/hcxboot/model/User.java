@@ -1,5 +1,10 @@
 package com.jiurong.hcxboot.model;
 
+/**
+ * @author hcx
+ * @date 2018-5-16
+ * @Description 
+ */
 public class User {
     /**
      * id

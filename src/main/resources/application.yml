@@ -35,7 +35,7 @@ mapper:
   not-empty: false
   identity: MYSQL
 
-#pagehelper
+#翻页插件
 pagehelper:
     helperDialect: mysql
     reasonable: true

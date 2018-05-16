@@ -1,7 +1,9 @@
-package com.jiurong.hcxboot.controller;
+<#assign className = table.className>
+<#assign classNameLower = className?uncap_first>
+package ${basepackage}.controller;
 
-import com.jiurong.hcxboot.model.User;
-import com.jiurong.hcxboot.service.UserService;
+import ${basepackage}.model.${className};
+import ${basepackage}.service.${className}Service;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,27 +12,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author hcx
- * @date 2018-5-16
+ * @author ${author}
+ * @date ${cTime}
  * @Description
  */
 @Controller
-@RequestMapping(value = "/user")
-public class UserController {
-    Logger logger = Logger.getLogger(UserController.class);
+@RequestMapping(value = "/${classNameLower}")
+public class ${className}Controller {
+    Logger logger = Logger.getLogger(${className}Controller.class);
 
     @Autowired
-    private UserService userService;
+    private ${className}Service ${classNameLower}Service;
 
     @ResponseBody
     @PostMapping("/save")
-    public Object save(User user) {
-        int result = userService.save(user);
+    public Object save(${className} ${classNameLower}) {
+        int result = ${classNameLower}Service.save(${classNameLower});
         if (result > 0) {
             logger.info("成功");
             return "成功";
@@ -42,8 +43,8 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/deleteById")
-    public Object deleteById(User user) {
-        int result = userService.deleteById(user.getId());
+    public Object deleteById(${className} ${classNameLower}) {
+        int result = ${classNameLower}Service.deleteById(${classNameLower}.getId());
         if (result > 0) {
             logger.info("成功");
             return "成功";
@@ -55,8 +56,8 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/deleteBySelective")
-    public Object deleteBySelective(User user) {
-        int result = userService.deleteBySelective(user);
+    public Object deleteBySelective(${className} ${classNameLower}) {
+        int result = ${classNameLower}Service.deleteBySelective(${classNameLower});
         if (result > 0) {
             logger.info("成功");
             return "成功";
@@ -68,8 +69,8 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/updateById")
-    public Object updateById(User user) {
-        int result = userService.updateById(user);
+    public Object updateById(${className} ${classNameLower}) {
+        int result = ${classNameLower}Service.updateById(${classNameLower});
         if (result > 0) {
             logger.info("成功");
             return "成功";
@@ -81,8 +82,8 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/updateByIdSelective")
-    public Object updateByIdSelective(User user) {
-        int result = userService.updateByIdSelective(user);
+    public Object updateByIdSelective(${className} ${classNameLower}) {
+        int result = ${classNameLower}Service.updateByIdSelective(${classNameLower});
         if (result > 0) {
             logger.info("成功");
             return "成功";
@@ -94,30 +95,28 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/selectById")
-    public Object selectById(User user) {
-        return userService.selectById(user.getId());
+    public Object selectById(${className} ${classNameLower}) {
+        return ${classNameLower}Service.selectById(${classNameLower}.getId());
     }
 
     @ResponseBody
     @PostMapping("/selectBySelective")
-    public Object selectBySelective(User user) {
+    public Object selectBySelective(${className} ${classNameLower}) {
         Map<String, Object> params = new HashMap<>();
-        params.put("id", user.getId());
-        params.put("userName", user.getUserName());
-        params.put("password", user.getPassword());
-        params.put("phone", user.getPhone());
-        return userService.selectBySelective(params);
+        <#list table.columns as column>
+        params.put("${column.columnNameLower}", ${classNameLower}.get${column.columnName}());
+        </#list>
+        return ${classNameLower}Service.selectBySelective(params);
     }
 
     @ResponseBody
     @PostMapping("/count")
-    public int count(User user) {
+    public int count(${className} ${classNameLower}) {
         Map<String, Object> params = new HashMap<>();
-        params.put("id", user.getId());
-        params.put("userName", user.getUserName());
-        params.put("password", user.getPassword());
-        params.put("phone", user.getPhone());
-        return userService.count(params);
+        <#list table.columns as column>
+        params.put("${column.columnNameLower}", ${classNameLower}.get${column.columnName}());
+        </#list>
+        return ${classNameLower}Service.count(params);
     }
 
     @ResponseBody
@@ -125,12 +124,11 @@ public class UserController {
     public Object pageInfo(
             @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
             @RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize,
-            User user) {
+            ${className} ${classNameLower}) {
         Map<String, Object> params = new HashMap<>();
-        params.put("id", user.getId());
-        params.put("userName", user.getUserName());
-        params.put("password", user.getPassword());
-        params.put("phone", user.getPhone());
-        return userService.pageInfo(pageNum, pageSize, params);
+        <#list table.columns as column>
+        params.put("${column.columnNameLower}", ${classNameLower}.get${column.columnName}());
+        </#list>
+        return ${classNameLower}Service.pageInfo(pageNum, pageSize, params);
     }
 }

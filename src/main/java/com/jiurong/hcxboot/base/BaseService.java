@@ -1,11 +1,16 @@
 package com.jiurong.hcxboot.base;
 
-import org.apache.ibatis.annotations.Param;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 import java.util.Map;
 
-public interface BaseMapper<T> {
+/**
+ * @author hcx
+ * @date 2018/5/16
+ * explain:
+ */
+public interface BaseService<T> {
     /**
      * 保存一个实体
      *
@@ -20,7 +25,7 @@ public interface BaseMapper<T> {
      * @param id 实体id
      * @return 删除的行数
      */
-    int deleteById(@Param("id") Integer id);
+    int deleteById(Integer id);
 
     /**
      * 删除一个实体
@@ -52,7 +57,7 @@ public interface BaseMapper<T> {
      * @param id id
      * @return 实体
      */
-    T selectById(@Param("id") Integer id);
+    T selectById(Integer id);
 
     /**
      * 查询实体列表
@@ -69,4 +74,14 @@ public interface BaseMapper<T> {
      * @return 数量
      */
     int count(Map params);
+
+    /**
+     * 查询分页数据
+     *
+     * @param pageNum  页码
+     * @param pageSize 每页数量
+     * @param params   参数
+     * @return 分页数据
+     */
+    PageInfo<T> pageInfo(int pageNum, int pageSize, Map params);
 }

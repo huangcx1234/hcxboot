@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jiurong.hcxboot.dao.UserMapper">
     <resultMap id="resultMap" type="com.jiurong.hcxboot.model.User">
-        <id property="id" column="=id"/>
-        <result property="userName" column="user_name"/>
-        <result property="password" column="password"/>
-        <result property="phone" column="phone"/>
+        <id property="id" column="id"/><!--id-->
+        <result property="userName" column="user_name"/><!--名字-->
+        <result property="password" column="password"/><!--密码-->
+        <result property="phone" column="phone"/><!--手机号-->
     </resultMap>
     <sql id="columnSql">
         id,
@@ -23,13 +23,13 @@
         id=#{id,jdbcType=INTEGER},
         user_name=#{userName,jdbcType=VARCHAR},
         password=#{password,jdbcType=VARCHAR},
-        phone=#{phone,jdbcType=VARCHAR}
+        phone=#{phone,jdbcType=VARCHAR},
     </sql>
     <sql id="columnEqPropertyIf">
         <if test="id!=null">id=#{id,jdbcType=INTEGER},</if>
         <if test="userName!=null">user_name=#{userName,jdbcType=VARCHAR},</if>
         <if test="password!=null">password=#{password,jdbcType=VARCHAR},</if>
-        <if test="phone!=null">phone=#{phone,jdbcType=VARCHAR}</if>
+        <if test="phone!=null">phone=#{phone,jdbcType=VARCHAR},</if>
     </sql>
     <sql id="whereIdSql">
         <where>
@@ -40,13 +40,14 @@
     <sql id="whereSql">
         <where>
             1=1
-            <if test="id!=null">AND id=#{id,jdbcType=INTEGER},</if>
-            <if test="userName!=null">AND user_name=#{userName,jdbcType=VARCHAR},</if>
-            <if test="password!=null">AND password=#{password,jdbcType=VARCHAR},</if>
+            <if test="id!=null">AND id=#{id,jdbcType=INTEGER}</if>
+            <if test="userName!=null">AND user_name=#{userName,jdbcType=VARCHAR}</if>
+            <if test="password!=null">AND password=#{password,jdbcType=VARCHAR}</if>
             <if test="phone!=null">AND phone=#{phone,jdbcType=VARCHAR}</if>
         </where>
     </sql>
-    <sql id="orderSql">order by
+    <sql id="orderSql">
+        order by
         <choose>
             <when test="sort=='id'">id</when>
             <when test="sort=='userName'">user_name</when>
@@ -61,8 +62,11 @@
     </sql>
 
     <!--增删改查基础部分-->
-    <insert id="save" parameterType="com.jiurong.hcxboot.model.User">
-        INSERT INTO user (<include refid="columnSql"/>) VALUES (<include refid="propertySql"/>)
+    <insert id="save" parameterType="com.jiurong.hcxboot.model.User" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO user
+        (<include refid="columnSql"/>)
+        VALUES
+        (<include refid="propertySql"/>)
     </insert>
     <delete id="deleteById" parameterType="java.lang.Integer">
         DELETE FROM user
@@ -88,13 +92,13 @@
     </update>
     <select id="selectById" parameterType="java.lang.Integer" resultMap="resultMap">
         SELECT
-        <include refid="columnList"/>
+        <include refid="columnSql"/>
         FROM user
         <include refid="whereIdSql"/>
     </select>
     <select id="selectBySelective" parameterType="Map" resultMap="resultMap">
         SELECT
-        <include refid="columnList"/>
+        <include refid="columnSql"/>
         FROM user
         <include refid="whereSql"/>
         <include refid="orderSql"/>
