@@ -22,7 +22,7 @@
     <sql id="columnEqProperty">
         id=#{id,jdbcType=INTEGER},
         user_name=#{userName,jdbcType=VARCHAR},
-        password=#{password,jdbcType=VARCHAR},
+        password =#{password,jdbcType=VARCHAR},
         phone=#{phone,jdbcType=VARCHAR},
     </sql>
     <sql id="columnEqPropertyIf">
@@ -62,7 +62,8 @@
     </sql>
 
     <!--增删改查基础部分-->
-    <insert id="save" parameterType="com.jiurong.hcxboot.model.User" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    <insert id="save" parameterType="com.jiurong.hcxboot.model.User" useGeneratedKeys="true" keyProperty="id"
+            keyColumn="id">
         INSERT INTO user
         (<include refid="columnSql"/>)
         VALUES

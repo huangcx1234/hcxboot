@@ -10,8 +10,5 @@
         false，当延迟加载时，按需加载对象属性（即访问对象中一个懒对象属性，不会加载对象中其他的懒对象属性）。
         默认为true -->
         <setting name="aggressiveLazyLoading" value="false"/>
-
-        <!-- 使用log4j接管mybatis日志系统-->
-        <setting name="logImpl" value="LOG4J"/>
     </settings>
 </configuration>
