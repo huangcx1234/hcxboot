@@ -1,6 +1,6 @@
 <#assign className = table.className>
 <#assign classNameLower = className?uncap_first>
-package ${basePackage}.model;
+package ${basePackage}.request.${classNameLower};
 
 <#assign dateNum=0>
 <#list table.columns as column>
@@ -9,18 +9,10 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 <#assign dateNum=1>
 </#if>
-<#if column.columnNameLower =='id'>
-import ${basePackage}.base.mybatis.annotation.UUID;
-</#if>
-<#if column.columnNameLower =='createTime'>
-import ${basePackage}.base.mybatis.annotation.CreateTime;
-</#if>
-<#if column.columnNameLower =='updateTime'>
-import ${basePackage}.base.mybatis.annotation.UpdateTime;
-</#if>
 </#list>
 import io.swagger.annotations.ApiModelProperty;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -29,20 +21,11 @@ import lombok.Data;
  * @Description ${tableComment}
  */
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class ${className} {
+public class Select${className} {
 <#list table.columns as column>
+    <#if column.columnNameLower !='createTime' && column.columnNameLower !='updateTime'>
 
     @ApiModelProperty(value = "${column.remarks}")
-    <#if column.columnNameLower =='id'>
-    @UUID
-    </#if>
-    <#if column.columnNameLower =='createTime'>
-    @CreateTime
-    </#if>
-    <#if column.columnNameLower =='updateTime'>
-    @UpdateTime
-    </#if>
     <#if column.jdbcSqlTypeName =='TIMESTAMP'>
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     </#if>
@@ -50,5 +33,12 @@ public class ${className} {
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     </#if>
     private ${column.simpleJavaType} ${column.columnNameLower};
+    </#if>
 </#list>
+
+    @ApiModelProperty(value = "第几页")
+    private Integer pageNum;
+
+    @ApiModelProperty(value = "每页数量")
+    private Integer pageSize;
 }

@@ -1,14 +1,14 @@
 <#assign className = table.className>
 <#assign classNameLower = className?uncap_first>
-package ${basepackage}.dao;
+package ${basePackage}.mapper;
 
-import ${basepackage}.base.BaseMapper;
-import ${basepackage}.model.${className};
+import ${basePackage}.model.${className};
+import ${basePackage}.base.BaseMapper;
 
 /**
-* @author ${author}
-* @date ${cTime}
-* @Description
-*/
-public interface ${className}Mapper extends BaseMapper<${className}>{
+ * @author ${author}
+ * @date ${createTime}
+ * @Description ${tableComment}
+ */
+public interface ${className}Mapper extends BaseMapper<${className}> {
 }

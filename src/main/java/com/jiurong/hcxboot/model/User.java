@@ -1,58 +1,43 @@
 package com.jiurong.hcxboot.model;
 
+import com.jiurong.hcxboot.base.mybatis.annotation.UUID;
+import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jiurong.hcxboot.base.mybatis.annotation.CreateTime;
+import com.jiurong.hcxboot.base.mybatis.annotation.UpdateTime;
+import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+
 /**
- * @author hcx
- * @date 2018-5-16
- * @Description 
+ * @author soyeajr
+ * @date 2019-5-23
+ * @Description 用户
  */
+@Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
-    /**
-     * id
-     */
-    private Integer id;
-    /**
-     * 名字
-     */
-    private String userName;
-    /**
-     * 密码
-     */
+
+    @ApiModelProperty(value = "id")
+    @UUID
+    private String id;
+
+    @ApiModelProperty(value = "用户名")
+    private String username;
+
+    @ApiModelProperty(value = "密码")
     private String password;
-    /**
-     * 手机号
-     */
+
+    @ApiModelProperty(value = "手机号")
     private String phone;
 
-    public Integer getId() {
-        return this.id;
-    }
+    @ApiModelProperty(value = "创建时间")
+    @CreateTime
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    private Date createTime;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return this.userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPhone() {
-        return this.phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+    @ApiModelProperty(value = "修改时间")
+    @UpdateTime
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    private Date updateTime;
 }
-

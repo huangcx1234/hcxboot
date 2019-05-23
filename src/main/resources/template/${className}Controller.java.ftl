@@ -1,134 +1,71 @@
 <#assign className = table.className>
 <#assign classNameLower = className?uncap_first>
-package ${basepackage}.controller;
+package ${basePackage}.controller;
 
-import ${basepackage}.model.${className};
-import ${basepackage}.service.${className}Service;
-import org.apache.log4j.Logger;
+import com.github.pagehelper.PageInfo;
+import ${basePackage}.config.ClientException;
+import ${basePackage}.model.${className};
+import ${basePackage}.request.${classNameLower}.Save${className};
+import ${basePackage}.request.${classNameLower}.Select${className};
+import ${basePackage}.request.${classNameLower}.Update${className};
+import ${basePackage}.service.${className}Service;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.validation.Valid;
 
 /**
  * @author ${author}
- * @date ${cTime}
- * @Description
+ * @date ${createTime}
+ * @Description ${tableComment}
  */
-@Controller
-@RequestMapping(value = "/${classNameLower}")
+@RestController
+@RequestMapping(value = "/api/v1")
+@Api(description = "${tableComment}")
+@Slf4j
 public class ${className}Controller {
-    Logger logger = Logger.getLogger(${className}Controller.class);
 
     @Autowired
     private ${className}Service ${classNameLower}Service;
 
-    @ResponseBody
-    @PostMapping("/save")
-    public Object save(${className} ${classNameLower}) {
-        int result = ${classNameLower}Service.save(${classNameLower});
-        if (result > 0) {
-            logger.info("成功");
-            return "成功";
-        } else {
-            logger.info("失败");
-            return "失败";
+    @ApiOperation(value = "新增")
+    @PostMapping("/${classNameLower}s")
+    public ${className} save(@RequestBody @Valid Save${className} save${className}) {
+        return ${classNameLower}Service.save(save${className});
+    }
+
+    @ApiOperation(value = "删除")
+    @ApiImplicitParam(name = "id", value = "id", dataType = "String", paramType = "path", required = true)
+    @DeleteMapping("/${classNameLower}s/{id}")
+    public void delete(@PathVariable("id") String id) {
+        ${classNameLower}Service.delete(id);
+    }
+
+    @ApiOperation(value = "修改")
+    @PutMapping("/${classNameLower}s")
+    public ${className} update(@RequestBody @Valid Update${className} update${className}) {
+        return ${classNameLower}Service.update(update${className});
+    }
+
+    @ApiOperation(value = "单个查询")
+    @ApiImplicitParam(name = "id", value = "id", dataType = "String", paramType = "path", required = true)
+    @GetMapping("/${classNameLower}s/{id}")
+    public ${className} get(@PathVariable("id") String id) {
+        ${className} ${classNameLower} = ${classNameLower}Service.get(id);
+        if (${classNameLower} == null) {
+            throw new ClientException("不存在");
         }
+        return ${classNameLower};
     }
 
-    @ResponseBody
-    @PostMapping("/deleteById")
-    public Object deleteById(${className} ${classNameLower}) {
-        int result = ${classNameLower}Service.deleteById(${classNameLower}.getId());
-        if (result > 0) {
-            logger.info("成功");
-            return "成功";
-        } else {
-            logger.info("失败");
-            return "失败";
-        }
-    }
-
-    @ResponseBody
-    @PostMapping("/deleteBySelective")
-    public Object deleteBySelective(${className} ${classNameLower}) {
-        int result = ${classNameLower}Service.deleteBySelective(${classNameLower});
-        if (result > 0) {
-            logger.info("成功");
-            return "成功";
-        } else {
-            logger.info("失败");
-            return "失败";
-        }
-    }
-
-    @ResponseBody
-    @PostMapping("/updateById")
-    public Object updateById(${className} ${classNameLower}) {
-        int result = ${classNameLower}Service.updateById(${classNameLower});
-        if (result > 0) {
-            logger.info("成功");
-            return "成功";
-        } else {
-            logger.info("失败");
-            return "失败";
-        }
-    }
-
-    @ResponseBody
-    @PostMapping("/updateByIdSelective")
-    public Object updateByIdSelective(${className} ${classNameLower}) {
-        int result = ${classNameLower}Service.updateByIdSelective(${classNameLower});
-        if (result > 0) {
-            logger.info("成功");
-            return "成功";
-        } else {
-            logger.info("失败");
-            return "失败";
-        }
-    }
-
-    @ResponseBody
-    @PostMapping("/selectById")
-    public Object selectById(${className} ${classNameLower}) {
-        return ${classNameLower}Service.selectById(${classNameLower}.getId());
-    }
-
-    @ResponseBody
-    @PostMapping("/selectBySelective")
-    public Object selectBySelective(${className} ${classNameLower}) {
-        Map<String, Object> params = new HashMap<>();
-        <#list table.columns as column>
-        params.put("${column.columnNameLower}", ${classNameLower}.get${column.columnName}());
-        </#list>
-        return ${classNameLower}Service.selectBySelective(params);
-    }
-
-    @ResponseBody
-    @PostMapping("/count")
-    public int count(${className} ${classNameLower}) {
-        Map<String, Object> params = new HashMap<>();
-        <#list table.columns as column>
-        params.put("${column.columnNameLower}", ${classNameLower}.get${column.columnName}());
-        </#list>
-        return ${classNameLower}Service.count(params);
-    }
-
-    @ResponseBody
-    @PostMapping("/pageInfo")
-    public Object pageInfo(
-            @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
-            @RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize,
-            ${className} ${classNameLower}) {
-        Map<String, Object> params = new HashMap<>();
-        <#list table.columns as column>
-        params.put("${column.columnNameLower}", ${classNameLower}.get${column.columnName}());
-        </#list>
-        return ${classNameLower}Service.pageInfo(pageNum, pageSize, params);
+    @ApiOperation(value = "分页查询")
+    @GetMapping("/${classNameLower}s")
+    public PageInfo<${className}> page(Select${className} select${className}) {
+        return ${classNameLower}Service.page(select${className});
     }
 }

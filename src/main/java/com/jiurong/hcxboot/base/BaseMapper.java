@@ -5,6 +5,11 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author soyeajr
+ * @date 2019-2-28
+ * @Description
+ */
 public interface BaseMapper<T> {
     /**
      * 保存一个实体
@@ -20,15 +25,15 @@ public interface BaseMapper<T> {
      * @param id 实体id
      * @return 删除的行数
      */
-    int deleteById(@Param("id") Integer id);
+    int deleteById(@Param("id") String id);
 
     /**
-     * 删除一个实体
+     * 删除根据条件
      *
-     * @param t 实体
+     * @param params 参数Map
      * @return 删除的行数
      */
-    int deleteBySelective(T t);
+    int deleteBySelective(Map params);
 
     /**
      * 更新一个实体
@@ -52,7 +57,15 @@ public interface BaseMapper<T> {
      * @param id id
      * @return 实体
      */
-    T selectById(@Param("id") Integer id);
+    T selectById(@Param("id") String id);
+
+    /**
+     * 查询实体
+     *
+     * @param params 参数Map
+     * @return 实体
+     */
+    T selectOneBySelective(Map params);
 
     /**
      * 查询实体列表

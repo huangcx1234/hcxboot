@@ -1,112 +1,132 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jiurong.hcxboot.dao.UserMapper">
+<mapper namespace="com.jiurong.hcxboot.mapper.UserMapper">
     <resultMap id="resultMap" type="com.jiurong.hcxboot.model.User">
         <id property="id" column="id"/><!--id-->
-        <result property="userName" column="user_name"/><!--名字-->
+        <result property="username" column="username"/><!--用户名-->
         <result property="password" column="password"/><!--密码-->
         <result property="phone" column="phone"/><!--手机号-->
+        <result property="createTime" column="create_time"/><!--创建时间-->
+        <result property="updateTime" column="update_time"/><!--修改时间-->
     </resultMap>
     <sql id="columnSql">
-        id,
-        user_name,
-        password,
-        phone
+        `id`,
+        `username`,
+        `password`,
+        `phone`,
+        `create_time`,
+        `update_time`
     </sql>
     <sql id="propertySql">
-        #{id,jdbcType=INTEGER},
-        #{userName,jdbcType=VARCHAR},
+        #{id,jdbcType=VARCHAR},
+        #{username,jdbcType=VARCHAR},
         #{password,jdbcType=VARCHAR},
-        #{phone,jdbcType=VARCHAR}
+        #{phone,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP}
     </sql>
     <sql id="columnEqProperty">
-        id=#{id,jdbcType=INTEGER},
-        user_name=#{userName,jdbcType=VARCHAR},
-        password =#{password,jdbcType=VARCHAR},
-        phone=#{phone,jdbcType=VARCHAR},
+        `id`=#{id,jdbcType=VARCHAR},
+        `username`=#{username,jdbcType=VARCHAR},
+        `password`=#{password,jdbcType=VARCHAR},
+        `phone`=#{phone,jdbcType=VARCHAR},
+        `create_time`=#{createTime,jdbcType=TIMESTAMP},
+        `update_time`=#{updateTime,jdbcType=TIMESTAMP},
     </sql>
     <sql id="columnEqPropertyIf">
-        <if test="id!=null">id=#{id,jdbcType=INTEGER},</if>
-        <if test="userName!=null">user_name=#{userName,jdbcType=VARCHAR},</if>
-        <if test="password!=null">password=#{password,jdbcType=VARCHAR},</if>
-        <if test="phone!=null">phone=#{phone,jdbcType=VARCHAR},</if>
+        <if test="id!=null">`id`=#{id,jdbcType=VARCHAR},</if>
+        <if test="username!=null">`username`=#{username,jdbcType=VARCHAR},</if>
+        <if test="password!=null">`password`=#{password,jdbcType=VARCHAR},</if>
+        <if test="phone!=null">`phone`=#{phone,jdbcType=VARCHAR},</if>
+        <if test="createTime!=null">`create_time`=#{createTime,jdbcType=TIMESTAMP},</if>
+        <if test="updateTime!=null">`update_time`=#{updateTime,jdbcType=TIMESTAMP},</if>
     </sql>
     <sql id="whereIdSql">
         <where>
-            <if test="id!=null">id = #{id,jdbcType=INTEGER}</if>
+            <if test="id!=null">`id` = #{id,jdbcType=VARCHAR}</if>
             <if test="id==null">AND 1=0</if>
         </where>
     </sql>
     <sql id="whereSql">
         <where>
             1=1
-            <if test="id!=null">AND id=#{id,jdbcType=INTEGER}</if>
-            <if test="userName!=null">AND user_name=#{userName,jdbcType=VARCHAR}</if>
-            <if test="password!=null">AND password=#{password,jdbcType=VARCHAR}</if>
-            <if test="phone!=null">AND phone=#{phone,jdbcType=VARCHAR}</if>
+            <if test="id!=null">AND `id`=#{id,jdbcType=VARCHAR}</if>
+            <if test="username!=null">AND `username`=#{username,jdbcType=VARCHAR}</if>
+            <if test="password!=null">AND `password`=#{password,jdbcType=VARCHAR}</if>
+            <if test="phone!=null">AND `phone`=#{phone,jdbcType=VARCHAR}</if>
+            <if test="createTime!=null">AND `create_time`=#{createTime,jdbcType=TIMESTAMP}</if>
+            <if test="updateTime!=null">AND `update_time`=#{updateTime,jdbcType=TIMESTAMP}</if>
         </where>
     </sql>
     <sql id="orderSql">
         order by
         <choose>
-            <when test="sort=='id'">id</when>
-            <when test="sort=='userName'">user_name</when>
-            <when test="sort=='password'">password</when>
-            <when test="sort=='phone'">phone</when>
-            <otherwise>id</otherwise>
+            <when test="sort=='id'">`id`</when>
+            <when test="sort=='username'">`username`</when>
+            <when test="sort=='password'">`password`</when>
+            <when test="sort=='phone'">`phone`</when>
+            <when test="sort=='createTime'">`create_time`</when>
+            <when test="sort=='updateTime'">`update_time`</when>
+            <otherwise>`create_time`</otherwise>
         </choose>
         <choose>
-            <when test="order=='desc'">desc</when>
-            <otherwise>asc</otherwise>
+            <when test="order=='asc'">asc</when>
+            <otherwise>desc</otherwise>
         </choose>
     </sql>
 
     <!--增删改查基础部分-->
-    <insert id="save" parameterType="com.jiurong.hcxboot.model.User" useGeneratedKeys="true" keyProperty="id"
-            keyColumn="id">
-        INSERT INTO user
+    <insert id="save" parameterType="com.jiurong.hcxboot.model.User">
+        INSERT INTO `user`
         (<include refid="columnSql"/>)
         VALUES
         (<include refid="propertySql"/>)
     </insert>
-    <delete id="deleteById" parameterType="java.lang.Integer">
-        DELETE FROM user
+    <delete id="deleteById" parameterType="java.lang.String">
+        DELETE FROM `user`
         <include refid="whereIdSql"/>
     </delete>
-    <delete id="deleteBySelective" parameterType="com.jiurong.hcxboot.model.User">
-        DELETE FROM user
+    <delete id="deleteBySelective" parameterType="Map">
+        DELETE FROM `user`
         <include refid="whereSql"/>
     </delete>
     <update id="updateById" parameterType="com.jiurong.hcxboot.model.User">
-        UPDATE user
+        UPDATE `user`
         <set>
             <include refid="columnEqProperty"/>
         </set>
         <include refid="whereIdSql"/>
     </update>
     <update id="updateByIdSelective" parameterType="com.jiurong.hcxboot.model.User">
-        UPDATE user
+        UPDATE `user`
         <set>
             <include refid="columnEqPropertyIf"/>
         </set>
         <include refid="whereIdSql"/>
     </update>
-    <select id="selectById" parameterType="java.lang.Integer" resultMap="resultMap">
+    <select id="selectById" parameterType="java.lang.String" resultMap="resultMap">
         SELECT
         <include refid="columnSql"/>
-        FROM user
+        FROM `user`
         <include refid="whereIdSql"/>
+    </select>
+    <select id="selectOneBySelective" parameterType="Map" resultMap="resultMap">
+        SELECT
+        <include refid="columnSql"/>
+        FROM `user`
+        <include refid="whereSql"/>
+        LIMIT 0,1
     </select>
     <select id="selectBySelective" parameterType="Map" resultMap="resultMap">
         SELECT
         <include refid="columnSql"/>
-        FROM user
+        FROM `user`
         <include refid="whereSql"/>
         <include refid="orderSql"/>
     </select>
     <select id="count" parameterType="Map" resultType="Integer">
         SELECT count(*)
-        FROM user
+        FROM `user`
         <include refid="whereSql"/>
     </select>
 </mapper>
