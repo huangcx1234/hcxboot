@@ -37,7 +37,7 @@
     <logger name="javax.management" level="INFO"/>
     <logger name="sun.rmi" level="INFO"/>
     <logger name="org.springframework" level="INFO"/>
-    <logger name="com.jiurong.hcxboot.dao" level="INFO"/>
+    <logger name="com.jiurong.hcxboot.mapper" level="INFO"/>
 
     <!-- 日志输出级别 -->
     <root level="ALL">
