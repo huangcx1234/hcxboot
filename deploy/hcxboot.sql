@@ -28,7 +28,7 @@ CREATE TABLE `user`  (
   `phone` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '手机号',
   `create_time` datetime(0) NOT NULL COMMENT '创建时间',
   `update_time` datetime(0) NOT NULL COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE,
+  PRIMARY KEY (`id`),
   UNIQUE INDEX `username`(`username`) USING HASH
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户' ROW_FORMAT = Compact;
 
