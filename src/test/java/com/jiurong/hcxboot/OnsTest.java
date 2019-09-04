@@ -16,14 +16,14 @@ import java.util.concurrent.TimeUnit;
 public class OnsTest {
     @SneakyThrows
     public void producer() {
-        DefaultMQProducer producer = new DefaultMQProducer("GID_charge");
+        DefaultMQProducer producer = new DefaultMQProducer("GID_jiurong_charge");
         producer.setNamesrvAddr("192.9.100.137:9876");
         producer.start();
         for (int i = 0; i < 100; i++) {
             String string = "Hello RocketMQ " + i;
-            Message msg = new Message("jiurong_charge" /* Topic */,
-                    "bus_device" /* Tag */,
-                    string.getBytes(RemotingHelper.DEFAULT_CHARSET) /* Message body */
+            Message msg = new Message("jiurong_charge",
+                    "bus_device",
+                    string.getBytes(RemotingHelper.DEFAULT_CHARSET)
             );
             producer.sendOneway(msg);
             TimeUnit.MILLISECONDS.sleep(10);
@@ -33,7 +33,7 @@ public class OnsTest {
 
     @SneakyThrows
     public void consumer() {
-        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("GID_charge");
+        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("GID_jiurong_charge");
         consumer.setNamesrvAddr("192.9.100.137:9876");
         consumer.subscribe("jiurong_charge", "bus_device");
         consumer.registerMessageListener((MessageListenerConcurrently) (msgs, context) -> {
