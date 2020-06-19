@@ -52,7 +52,7 @@ public class CodeGenerator {
         Files.copy(Paths.get(outRoot + "\\" + modelName + "Service.java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\service\\" + modelName + "Service.java"), StandardCopyOption.REPLACE_EXISTING);
         Files.copy(Paths.get(outRoot + "\\" + modelName + "Controller.java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\controller\\" + modelName + "Controller.java"), StandardCopyOption.REPLACE_EXISTING);
         new File(".\\src\\main\\java\\com\\jiurong\\hcxboot\\request\\" + tableName).mkdirs();
-        Files.copy(Paths.get(outRoot + "\\Select" + modelName + ".java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\request\\" + tableName + "\\Select" + modelName + ".java"), StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(Paths.get(outRoot + "\\Page" + modelName + ".java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\request\\" + tableName + "\\Page" + modelName + ".java"), StandardCopyOption.REPLACE_EXISTING);
         Files.copy(Paths.get(outRoot + "\\Update" + modelName + ".java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\request\\" + tableName + "\\Update" + modelName + ".java"), StandardCopyOption.REPLACE_EXISTING);
         Files.copy(Paths.get(outRoot + "\\Save" + modelName + ".java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\request\\" + tableName + "\\Save" + modelName + ".java"), StandardCopyOption.REPLACE_EXISTING);
     }

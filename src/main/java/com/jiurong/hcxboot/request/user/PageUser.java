@@ -13,7 +13,7 @@ import lombok.Data;
  * @Description 用户
  */
 @Data
-public class SelectUser {
+public class PageUser {
 
     @ApiModelProperty(value = "id")
     private String id;

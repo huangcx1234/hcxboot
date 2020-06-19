@@ -2,11 +2,11 @@ package com.jiurong.hcxboot.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.jiurong.hcxboot.config.ClientException;
+import com.jiurong.hcxboot.exception.ClientException;
 import com.jiurong.hcxboot.mapper.UserMapper;
 import com.jiurong.hcxboot.model.User;
 import com.jiurong.hcxboot.request.user.SaveUser;
-import com.jiurong.hcxboot.request.user.SelectUser;
+import com.jiurong.hcxboot.request.user.PageUser;
 import com.jiurong.hcxboot.request.user.UpdateUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,13 +57,13 @@ public class UserService {
         return user;
     }
 
-    public PageInfo<User> page(SelectUser selectUser) {
-        PageHelper.startPage(selectUser.getPageNum() == null ? 1 : selectUser.getPageNum(), selectUser.getPageSize() == null ? defaultPageSize : selectUser.getPageSize());
+    public PageInfo<User> page(PageUser pageUser) {
+        PageHelper.startPage(pageUser.getPageNum() == null ? 1 : pageUser.getPageNum(), pageUser.getPageSize() == null ? defaultPageSize : pageUser.getPageSize());
         Map<String, Object> params = new HashMap<>();
-        params.put("id", selectUser.getId());
-        params.put("username", selectUser.getUsername());
-        params.put("password", selectUser.getPassword());
-        params.put("phone", selectUser.getPhone());
+        params.put("id", pageUser.getId());
+        params.put("username", pageUser.getUsername());
+        params.put("password", pageUser.getPassword());
+        params.put("phone", pageUser.getPhone());
         List<User> list = userMapper.selectBySelective(params);
         return new PageInfo<>(list);
     }

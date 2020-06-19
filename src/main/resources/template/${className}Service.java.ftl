@@ -4,11 +4,11 @@ package ${basePackage}.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import ${basePackage}.config.ClientException;
+import ${basePackage}.exception.ClientException;
 import ${basePackage}.mapper.${className}Mapper;
 import ${basePackage}.model.${className};
 import ${basePackage}.request.${classNameLower}.Save${className};
-import ${basePackage}.request.${classNameLower}.Select${className};
+import ${basePackage}.request.${classNameLower}.Page${className};
 import ${basePackage}.request.${classNameLower}.Update${className};
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,12 +63,12 @@ public class ${className}Service {
         return ${classNameLower};
     }
 
-    public PageInfo<${className}> page(Select${className} select${className}) {
-        PageHelper.startPage(select${className}.getPageNum() == null ? 1 : select${className}.getPageNum(), select${className}.getPageSize() == null ? defaultPageSize : select${className}.getPageSize());
+    public PageInfo<${className}> page(Page${className} page${className}) {
+        PageHelper.startPage(page${className}.getPageNum() == null ? 1 : page${className}.getPageNum(), page${className}.getPageSize() == null ? defaultPageSize : page${className}.getPageSize());
         Map<String, Object> params = new HashMap<>();
         <#list table.columns as column>
         <#if column.columnNameLower !='createTime' && column.columnNameLower !='updateTime'>
-        params.put("${column.columnNameLower}", select${className}.get${column.columnName}());
+        params.put("${column.columnNameLower}", page${className}.get${column.columnName}());
         </#if>
         </#list>
         List<${className}> list = ${classNameLower}Mapper.selectBySelective(params);

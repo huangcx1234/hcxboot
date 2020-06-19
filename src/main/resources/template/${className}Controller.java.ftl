@@ -3,10 +3,9 @@
 package ${basePackage}.controller;
 
 import com.github.pagehelper.PageInfo;
-import ${basePackage}.config.ClientException;
 import ${basePackage}.model.${className};
 import ${basePackage}.request.${classNameLower}.Save${className};
-import ${basePackage}.request.${classNameLower}.Select${className};
+import ${basePackage}.request.${classNameLower}.Page${className};
 import ${basePackage}.request.${classNameLower}.Update${className};
 import ${basePackage}.service.${className}Service;
 import io.swagger.annotations.Api;
@@ -54,7 +53,7 @@ public class ${className}Controller {
 
     @ApiOperation(value = "分页查询")
     @GetMapping("/${classNameLower}s")
-    public PageInfo<${className}> page(Select${className} select${className}) {
-        return ${classNameLower}Service.page(select${className});
+    public PageInfo<${className}> page(Page${className} page${className}) {
+        return ${classNameLower}Service.page(page${className});
     }
 }

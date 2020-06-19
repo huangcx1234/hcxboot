@@ -21,7 +21,7 @@ import lombok.Data;
  * @Description ${tableComment}
  */
 @Data
-public class Select${className} {
+public class Page${className} {
 <#list table.columns as column>
     <#if column.columnNameLower !='createTime' && column.columnNameLower !='updateTime'>
 

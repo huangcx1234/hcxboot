@@ -1,10 +1,9 @@
 package com.jiurong.hcxboot.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.jiurong.hcxboot.config.ClientException;
 import com.jiurong.hcxboot.model.User;
 import com.jiurong.hcxboot.request.user.SaveUser;
-import com.jiurong.hcxboot.request.user.SelectUser;
+import com.jiurong.hcxboot.request.user.PageUser;
 import com.jiurong.hcxboot.request.user.UpdateUser;
 import com.jiurong.hcxboot.service.UserService;
 import io.swagger.annotations.Api;
@@ -52,7 +51,7 @@ public class UserController {
 
     @ApiOperation(value = "分页查询")
     @GetMapping("/users")
-    public PageInfo<User> page(SelectUser selectUser) {
-        return userService.page(selectUser);
+    public PageInfo<User> page(PageUser pageUser) {
+        return userService.page(pageUser);
     }
 }
