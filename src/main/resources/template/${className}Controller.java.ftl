@@ -52,17 +52,6 @@ public class ${className}Controller {
         return ${classNameLower}Service.update(update${className});
     }
 
-    @ApiOperation(value = "单个查询")
-    @ApiImplicitParam(name = "id", value = "id", dataType = "String", paramType = "path", required = true)
-    @GetMapping("/${classNameLower}s/{id}")
-    public ${className} get(@PathVariable("id") String id) {
-        ${className} ${classNameLower} = ${classNameLower}Service.get(id);
-        if (${classNameLower} == null) {
-            throw new ClientException("不存在");
-        }
-        return ${classNameLower};
-    }
-
     @ApiOperation(value = "分页查询")
     @GetMapping("/${classNameLower}s")
     public PageInfo<${className}> page(Select${className} select${className}) {

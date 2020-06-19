@@ -63,10 +63,6 @@ public class ${className}Service {
         return ${classNameLower};
     }
 
-    public ${className} get(String id) {
-        return ${classNameLower}Mapper.selectById(id);
-    }
-
     public PageInfo<${className}> page(Select${className} select${className}) {
         PageHelper.startPage(select${className}.getPageNum() == null ? 1 : select${className}.getPageNum(), select${className}.getPageSize() == null ? defaultPageSize : select${className}.getPageSize());
         Map<String, Object> params = new HashMap<>();

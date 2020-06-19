@@ -3,6 +3,10 @@ package com.jiurong.hcxboot;
 import cn.org.rapid_framework.generator.GeneratorFacade;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Calendar;
 
 /**
@@ -38,12 +42,19 @@ public class CodeGenerator {
         g.deleteOutRootDir();
         //通过数据库表生成文件
         GeneratorProperties.setProperty("tableComment", "用户");
-        g.generateByTable("user");
-
-//        自动搜索数据库中的所有表并生成文件,template为模板的根目录
-//        g.generateByAllTable();
-//        按table名字删除文件
-//        g.deleteByTable(&quot;table_name&quot;, &quot;template&quot;);
+        String tableName = "user";
+        g.generateByTable(tableName);
+        //复制文件内容到指定目录
+        String modelName = tableName.substring(0, 1).toUpperCase() + tableName.substring(1);
+        Files.copy(Paths.get(outRoot + "\\" + modelName + ".java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\model\\" + modelName + ".java"), StandardCopyOption.REPLACE_EXISTING);
+//        Files.copy(Paths.get(outRoot + "\\" + modelName + "Mapper.xml"), Paths.get(".\\src\\main\\resources\\mapper\\" + modelName + "Mapper.xml"), StandardCopyOption.REPLACE_EXISTING);
+//        Files.copy(Paths.get(outRoot + "\\" + modelName + "Mapper.java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\mapper\\" + modelName + "Mapper.java"), StandardCopyOption.REPLACE_EXISTING);
+//        Files.copy(Paths.get(outRoot + "\\" + modelName + "Service.java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\service\\" + modelName + "Service.java"), StandardCopyOption.REPLACE_EXISTING);
+//        Files.copy(Paths.get(outRoot + "\\" + modelName + "Controller.java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\controller\\" + modelName + "Controller.java"), StandardCopyOption.REPLACE_EXISTING);
+//        new File(".\\src\\main\\java\\com\\jiurong\\hcxboot\\request\\" + tableName).mkdirs();
+//        Files.copy(Paths.get(outRoot + "\\Select" + modelName + ".java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\request\\" + tableName + "\\Select" + modelName + ".java"), StandardCopyOption.REPLACE_EXISTING);
+//        Files.copy(Paths.get(outRoot + "\\Update" + modelName + ".java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\request\\" + tableName + "\\Update" + modelName + ".java"), StandardCopyOption.REPLACE_EXISTING);
+//        Files.copy(Paths.get(outRoot + "\\Save" + modelName + ".java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\request\\" + tableName + "\\Save" + modelName + ".java"), StandardCopyOption.REPLACE_EXISTING);
     }
 
     private static String getCreateTime() {

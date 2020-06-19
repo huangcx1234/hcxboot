@@ -53,23 +53,14 @@
     <sql id="orderSql">
         order by
         <choose>
-            <#list table.columns as column>
+        <#list table.columns as column>
             <when test="sort=='${column.columnNameFirstLower}'">`${column.sqlName}`</when>
-            </#list>
-            <#assign createTimeNum=0>
-            <#list table.columns as column>
-            <#if column.sqlName =='create_time'>
-            <otherwise>`create_time`</otherwise>
-            <#assign createTimeNum=1>
-            </#if>
-            </#list>
-            <#if createTimeNum == 0>
+        </#list>
             <otherwise>`id`</otherwise>
-            </#if>
         </choose>
         <choose>
-            <when test="order=='asc'">asc</when>
-            <otherwise>desc</otherwise>
+            <when test="order=='desc'">desc</when>
+            <otherwise>asc</otherwise>
         </choose>
     </sql>
 
