@@ -1,7 +1,10 @@
 package com.jiurong.hcxboot.config;
 
+import com.jiurong.hcxboot.exception.ClientException;
+import com.jiurong.hcxboot.exception.ServerException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,18 +17,32 @@ import java.io.IOException;
 @ControllerAdvice("com.jiurong.hcxboot.controller")
 @ResponseBody
 public class GlobalExceptionHandler {
-    //客户端异常
-    @ExceptionHandler(ClientException.class)
-    public ResponseEntity clientExceptionHandler(ClientException ce) {
-        return new ResponseEntity<>(ce.toResponseBody(), HttpStatus.BAD_REQUEST);
-    }
-
     //数据校验异常
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected ResponseEntity handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
+    public ResponseEntity methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
         BindingResult bindingResult = e.getBindingResult();
         ObjectError oe = bindingResult.getAllErrors().get(0);
         return new ResponseEntity<>(new ClientException(oe.getDefaultMessage()).toResponseBody(), HttpStatus.BAD_REQUEST);
+    }
+
+    //数据校验异常
+    @ExceptionHandler(BindException.class)
+    public ResponseEntity bindExceptionHandler(BindException e) {
+        BindingResult bindingResult = e.getBindingResult();
+        ObjectError oe = bindingResult.getAllErrors().get(0);
+        return new ResponseEntity<>(new ClientException(oe.getDefaultMessage()).toResponseBody(), HttpStatus.BAD_REQUEST);
+    }
+
+    //客户端异常
+    @ExceptionHandler(ClientException.class)
+    public ResponseEntity clientExceptionHandler(ClientException e) {
+        return new ResponseEntity<>(e.toResponseBody(), HttpStatus.BAD_REQUEST);
+    }
+
+    //服务端异常
+    @ExceptionHandler(ServerException.class)
+    public ResponseEntity serverExceptionHandler(ServerException e) {
+        return new ResponseEntity<>(e.toResponseBody(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     //类型转换异常

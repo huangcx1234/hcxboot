@@ -1,4 +1,4 @@
-package com.jiurong.hcxboot.config;
+package com.jiurong.hcxboot.exception;
 
 
 import java.util.HashMap;
