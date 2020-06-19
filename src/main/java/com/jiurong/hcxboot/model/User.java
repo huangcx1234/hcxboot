@@ -23,7 +23,7 @@ public class User {
     private String id;
 
     @ApiModelProperty(value = "用户名")
-    private String username;
+    private String username1;
 
     @ApiModelProperty(value = "密码")
     private String password;
