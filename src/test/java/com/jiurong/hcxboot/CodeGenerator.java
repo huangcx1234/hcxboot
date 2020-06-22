@@ -2,6 +2,8 @@ package com.jiurong.hcxboot;
 
 import cn.org.rapid_framework.generator.GeneratorFacade;
 import cn.org.rapid_framework.generator.GeneratorProperties;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -45,16 +47,17 @@ public class CodeGenerator {
         String tableName = "user";
         g.generateByTable(tableName);
         //复制文件内容到指定目录
-        String modelName = tableName.substring(0, 1).toUpperCase() + tableName.substring(1);
-        Files.copy(Paths.get(outRoot + "\\" + modelName + ".java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\model\\" + modelName + ".java"), StandardCopyOption.REPLACE_EXISTING);
-        Files.copy(Paths.get(outRoot + "\\" + modelName + "Mapper.xml"), Paths.get(".\\src\\main\\resources\\mapper\\" + modelName + "Mapper.xml"), StandardCopyOption.REPLACE_EXISTING);
-        Files.copy(Paths.get(outRoot + "\\" + modelName + "Mapper.java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\mapper\\" + modelName + "Mapper.java"), StandardCopyOption.REPLACE_EXISTING);
-        Files.copy(Paths.get(outRoot + "\\" + modelName + "Service.java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\service\\" + modelName + "Service.java"), StandardCopyOption.REPLACE_EXISTING);
-        Files.copy(Paths.get(outRoot + "\\" + modelName + "Controller.java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\controller\\" + modelName + "Controller.java"), StandardCopyOption.REPLACE_EXISTING);
-        new File(".\\src\\main\\java\\com\\jiurong\\hcxboot\\request\\" + tableName).mkdirs();
-        Files.copy(Paths.get(outRoot + "\\Page" + modelName + ".java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\request\\" + tableName + "\\Page" + modelName + ".java"), StandardCopyOption.REPLACE_EXISTING);
-        Files.copy(Paths.get(outRoot + "\\Update" + modelName + ".java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\request\\" + tableName + "\\Update" + modelName + ".java"), StandardCopyOption.REPLACE_EXISTING);
-        Files.copy(Paths.get(outRoot + "\\Save" + modelName + ".java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\request\\" + tableName + "\\Save" + modelName + ".java"), StandardCopyOption.REPLACE_EXISTING);
+        String className = StringUtils.replace(WordUtils.capitalizeFully(tableName,new char[]{'_'}), "_", "", -1);
+        String classNameLower = StringUtils.uncapitalize(className);
+        Files.copy(Paths.get(outRoot + "\\" + className + ".java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\model\\" + className + ".java"), StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(Paths.get(outRoot + "\\" + className + "Mapper.xml"), Paths.get(".\\src\\main\\resources\\mapper\\" + className + "Mapper.xml"), StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(Paths.get(outRoot + "\\" + className + "Mapper.java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\mapper\\" + className + "Mapper.java"), StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(Paths.get(outRoot + "\\" + className + "Service.java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\service\\" + className + "Service.java"), StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(Paths.get(outRoot + "\\" + className + "Controller.java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\controller\\" + className + "Controller.java"), StandardCopyOption.REPLACE_EXISTING);
+        new File(".\\src\\main\\java\\com\\jiurong\\hcxboot\\request\\" + classNameLower).mkdirs();
+        Files.copy(Paths.get(outRoot + "\\Page" + className + ".java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\request\\" + classNameLower + "\\Page" + className + ".java"), StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(Paths.get(outRoot + "\\Update" + className + ".java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\request\\" + classNameLower + "\\Update" + className + ".java"), StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(Paths.get(outRoot + "\\Save" + className + ".java"), Paths.get(".\\src\\main\\java\\com\\jiurong\\hcxboot\\request\\" + classNameLower + "\\Save" + className + ".java"), StandardCopyOption.REPLACE_EXISTING);
     }
 
     private static String getCreateTime() {
