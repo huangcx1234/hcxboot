@@ -6,10 +6,12 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author soyeajr
- * @date 2020-6-19
+ * @date 2020-6-29
  * @Description 用户
  */
 @Data
@@ -32,4 +34,13 @@ public class PageUser {
 
     @ApiModelProperty(value = "每页数量")
     private Integer pageSize;
+
+    public Map toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("username", username);
+        map.put("password", password);
+        map.put("phone", phone);
+        return map;
+    }
 }

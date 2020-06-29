@@ -14,6 +14,8 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author ${author}
@@ -41,4 +43,14 @@ public class Page${className} {
 
     @ApiModelProperty(value = "每页数量")
     private Integer pageSize;
+
+    public Map toMap() {
+        Map<String, Object> map = new HashMap<>();
+    <#list table.columns as column>
+        <#if column.columnNameLower !='createTime' && column.columnNameLower !='updateTime'>
+        map.put("${column.columnNameLower}", ${column.columnNameLower});
+        </#if>
+    </#list>
+        return map;
+    }
 }

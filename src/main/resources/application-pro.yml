@@ -11,4 +11,4 @@ swagger:
     enable: true
 
 page:
-    defaultPageSize: 10
+    size: 10

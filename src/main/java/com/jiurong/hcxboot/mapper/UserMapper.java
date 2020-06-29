@@ -5,7 +5,7 @@ import com.jiurong.hcxboot.base.BaseMapper;
 
 /**
  * @author soyeajr
- * @date 2020-6-19
+ * @date 2020-6-29
  * @Description 用户
  */
 public interface UserMapper extends BaseMapper<User> {

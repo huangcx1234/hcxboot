@@ -18,14 +18,14 @@ import java.util.Map;
 
 /**
  * @author soyeajr
- * @date 2020-6-19
+ * @date 2020-6-29
  * @Description 用户
  */
 @Service(value = "userService")
 public class UserService {
 
-    @Value("${page.defaultPageSize}")
-    private Integer defaultPageSize;
+    @Value("${page.size}")
+    private Integer pageSize;
 
     @Autowired
     private UserMapper userMapper;
@@ -58,13 +58,8 @@ public class UserService {
     }
 
     public PageInfo<User> page(PageUser pageUser) {
-        PageHelper.startPage(pageUser.getPageNum() == null ? 1 : pageUser.getPageNum(), pageUser.getPageSize() == null ? defaultPageSize : pageUser.getPageSize());
-        Map<String, Object> params = new HashMap<>();
-        params.put("id", pageUser.getId());
-        params.put("username", pageUser.getUsername());
-        params.put("password", pageUser.getPassword());
-        params.put("phone", pageUser.getPhone());
-        List<User> list = userMapper.selectBySelective(params);
+        PageHelper.startPage(pageUser.getPageNum() == null ? 1 : pageUser.getPageNum(), pageUser.getPageSize() == null ? pageSize : pageUser.getPageSize());
+        List<User> list = userMapper.selectBySelective(pageUser.toMap());
         return new PageInfo<>(list);
     }
 }

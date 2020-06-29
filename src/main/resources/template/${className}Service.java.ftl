@@ -26,8 +26,8 @@ import java.util.Map;
 @Service(value = "${classNameLower}Service")
 public class ${className}Service {
 
-    @Value("${r"${page.defaultPageSize}"}")
-    private Integer defaultPageSize;
+    @Value("${r"${page.size}"}")
+    private Integer pageSize;
 
     @Autowired
     private ${className}Mapper ${classNameLower}Mapper;
@@ -64,14 +64,8 @@ public class ${className}Service {
     }
 
     public PageInfo<${className}> page(Page${className} page${className}) {
-        PageHelper.startPage(page${className}.getPageNum() == null ? 1 : page${className}.getPageNum(), page${className}.getPageSize() == null ? defaultPageSize : page${className}.getPageSize());
-        Map<String, Object> params = new HashMap<>();
-        <#list table.columns as column>
-        <#if column.columnNameLower !='createTime' && column.columnNameLower !='updateTime'>
-        params.put("${column.columnNameLower}", page${className}.get${column.columnName}());
-        </#if>
-        </#list>
-        List<${className}> list = ${classNameLower}Mapper.selectBySelective(params);
+        PageHelper.startPage(page${className}.getPageNum() == null ? 1 : page${className}.getPageNum(), page${className}.getPageSize() == null ? pageSize : page${className}.getPageSize());
+        List<${className}> list = ${classNameLower}Mapper.selectBySelective(page${className}.toMap());
         return new PageInfo<>(list);
     }
 }
