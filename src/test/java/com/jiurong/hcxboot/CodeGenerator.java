@@ -22,7 +22,7 @@ public class CodeGenerator {
         //数据库连接相关配置
         GeneratorProperties.setProperty("jdbc_username", "root");
         GeneratorProperties.setProperty("jdbc_password", "soyeajr");
-        GeneratorProperties.setProperty("jdbc_url", "jdbc:mysql://localhost:3306/hcxboot?useUnicode=true&amp;characterEncoding=UTF-8");
+        GeneratorProperties.setProperty("jdbc_url", "jdbc:mysql://localhost:3306/hcxboot?useUnicode=true&characterEncoding=UTF-8");
         GeneratorProperties.setProperty("jdbc_driver", "com.mysql.jdbc.Driver");
         //数据库类型相关配置
         GeneratorProperties.setProperty("java_typemapping.java.sql.Timestamp", "java.util.Date");
